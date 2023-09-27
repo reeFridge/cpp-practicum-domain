@@ -93,7 +93,7 @@ Number ReadNumberOnLine(istream& input) {
 
 void TestDomainEqualOp() {
 	assert(Domain("a.b.c"s) == Domain("a.b.c"s));
-	assert((Domain("a.b.c"s) == Domain("A.B.C")) == false);
+	assert(!(Domain("a.b.c"s) == Domain("A.B.C")));
 }
 
 void TestDomainIsSubdomain() {
@@ -105,6 +105,11 @@ void TestDomainIsSubdomain() {
 	{
 		const Domain domain("gdz.com"s);
 		assert(domain.IsSubdomain(Domain("com"s)));
+	}
+
+	{
+		const Domain domain("gdz.org"s);
+		assert(!domain.IsSubdomain(Domain("com"s)));
 	}
 }
 
@@ -144,7 +149,7 @@ void RunTests() {
 }
 
 int main() {
-	//RunTests();
+	RunTests();
 
 	const std::vector<Domain> forbidden_domains = ReadDomains(cin, ReadNumberOnLine<size_t>(cin));
 	DomainChecker checker(forbidden_domains.begin(), forbidden_domains.end());
